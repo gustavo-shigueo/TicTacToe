@@ -1,0 +1,126 @@
+*, *::before, *::after{
+    box-sizing: border-box;
+}
+
+$cell_size: 100px;
+$mark_size: $cell_size * .9;
+
+body{
+    margin: 0;
+}
+
+.cell{
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: $cell_size;
+    height: $cell_size;
+    border: 1px solid black;
+    &:first-child, 
+    &:nth-child(2),
+    &:nth-child(3){
+        border-top: none;
+    }
+    &:nth-child(3n + 1){
+        border-left: none;
+    }
+    &:nth-child(3n + 3){
+        border-right: none;
+    }
+    &:last-child,
+    &:nth-child(7),
+    &:nth-child(8){
+        border-bottom: none;
+    }
+    &.x, &.o{
+        cursor: not-allowed;
+    }
+}
+.cell.x,
+.board.x .cell:not(.o):not(.x):hover{
+    &::after, &::before{
+        content: '';
+        width: $mark_size * .15;
+        height: $mark_size;
+        background-color: black;
+        position: absolute;
+    }
+    &::before{
+        transform: rotate(45deg);
+    }
+    &::after{
+        transform: rotate(-45deg);
+    }
+}
+
+.cell.o,
+.board.o .cell:not(.o):not(.x):hover{
+    &::after, &::before{
+        content: '';
+        width: $mark_size;
+        height: $mark_size;
+        background-color: black;
+        position: absolute;
+        border-radius: 50%;
+    }
+    &::before{
+        transform: rotate(45deg);
+    }
+    &::after{
+        transform: rotate(-45deg);
+        width: $mark_size * .7;
+        height: $mark_size * .7;
+        background-color: white;
+    }
+}
+.board{
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+    grid-template-columns: repeat(3, auto);
+    &.x .cell:not(.o):not(.x):hover{
+        &::after, &::before{
+            background-color: lightgray;
+        }
+    }
+    &.o .cell:not(.o):not(.x):hover{
+        &::before{
+            background-color: lightgray;
+        }
+    }
+}
+.endingMessage{
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0,0,0,.9);
+    color: white;
+    font-size: 5rem;
+    font-family: Arial, sans-serif;
+    flex-direction: column;
+    &.show{
+        display: flex;
+    }
+    button{
+        font-size: 3rem;
+        cursor: pointer;
+        background-color: white;
+        border: 1px solid black;
+        padding: .25em .5em;
+        &:hover{
+            background-color: black;
+            color: white;
+        }
+    }
+}
